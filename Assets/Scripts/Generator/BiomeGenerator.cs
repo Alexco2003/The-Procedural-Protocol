@@ -7,11 +7,11 @@ public class BiomeGenerator : MonoBehaviour
     public int mapWidth = 100;
     public int mapHeight = 100;
     public float meshScale = 1f;
-    public float heightMultiplier = 15f;
+    public float heightMultiplier = 35f;
     public float waterLevel = 0.35f;
 
     [Header("Fractal Noise Settings")]
-    public float noiseScale = 3f;
+    public float noiseScale = 1.8f;
     [Range(1, 8)] public int octaves = 6;
     [Range(0, 1)] public float persistence = 0.5f;
     public float lacunarity = 2f;
