@@ -25,8 +25,29 @@ public class BiomeGenerator : MonoBehaviour
 
     void Start()
     {
-        elevationSeed = Random.Range(0f, 1000f);
-        moistureSeed = Random.Range(0f, 1000f);
+        // load settings
+        mapWidth = TerrainGenerationData.mapWidth;
+        mapHeight = TerrainGenerationData.mapHeight;
+        meshScale = TerrainGenerationData.meshScale;
+        heightMultiplier = TerrainGenerationData.heightMultiplier;
+        waterLevel = TerrainGenerationData.waterLevel;
+
+        noiseScale = TerrainGenerationData.noiseScale;
+        octaves = TerrainGenerationData.octaves;
+        persistence = TerrainGenerationData.persistence;
+        lacunarity = TerrainGenerationData.lacunarity;
+
+        // if seeds are set to -1, generate random seeds for elevation and moisture
+        if (TerrainGenerationData.elevationSeed == -1f)
+            elevationSeed = Random.Range(0f, 10000f);
+        else
+            elevationSeed = TerrainGenerationData.elevationSeed;
+
+        if (TerrainGenerationData.moistureSeed == -1f)
+            moistureSeed = Random.Range(0f, 10000f);
+        else
+            moistureSeed = TerrainGenerationData.moistureSeed;
+
         GenerateMaps();
         ConstructMesh();
     }
