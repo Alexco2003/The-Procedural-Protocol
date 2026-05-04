@@ -10,6 +10,7 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField heightInput;
     public TMP_InputField heightMultiplierInput;
     public TMP_InputField noiseScaleInput;
+    public TMP_InputField numberOfPlantsInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -29,6 +30,7 @@ public class MainMenuController : MonoBehaviour
         if (heightInput) heightInput.text = TerrainGenerationData.mapHeight.ToString();
         if (heightMultiplierInput) heightMultiplierInput.text = TerrainGenerationData.heightMultiplier.ToString();
         if (noiseScaleInput) noiseScaleInput.text = TerrainGenerationData.noiseScale.ToString();
+        if (numberOfPlantsInput) numberOfPlantsInput.text = PlantsGenerationData.numberOfPlants.ToString(); 
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -46,6 +48,8 @@ public class MainMenuController : MonoBehaviour
         if (float.TryParse(heightMultiplierInput.text, out float hm)) TerrainGenerationData.heightMultiplier = Mathf.Clamp(hm, 5f, 60f);
         if (float.TryParse(noiseScaleInput.text, out float ns)) TerrainGenerationData.noiseScale = Mathf.Clamp(ns, 0.5f, 15f);
 
+        if (int.TryParse(numberOfPlantsInput.text, out int np)) PlantsGenerationData.numberOfPlants = Mathf.Clamp(np, 10, 200);
+
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
         else TerrainGenerationData.elevationSeed = -1f;
 
@@ -62,6 +66,7 @@ public class MainMenuController : MonoBehaviour
                   $"Elevation Seed: {(TerrainGenerationData.elevationSeed == -1f ? "Random" : TerrainGenerationData.elevationSeed.ToString())}, " +
                   $"Moisture Seed: {(TerrainGenerationData.moistureSeed == -1f ? "Random" : TerrainGenerationData.moistureSeed.ToString())}, " +
                   $"Octaves: {TerrainGenerationData.octaves}, Persistence: {TerrainGenerationData.persistence}, Water Level: {TerrainGenerationData.waterLevel}" +
+                  $"Number of Plants: {PlantsGenerationData.numberOfPlants}." +
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }

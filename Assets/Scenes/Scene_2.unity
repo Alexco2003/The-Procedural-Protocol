@@ -622,10 +622,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantsGenerator
   plantTypes:
+  - {fileID: 4454315729979340930, guid: 30134ae1e3e6af048b079687c34d8c66, type: 3}
+  - {fileID: 4454315729979340930, guid: 9eb7ae3b3d27ec448ba0111c33c7325d, type: 3}
+  - {fileID: 4454315729979340930, guid: f51237854f05b714fbc4607b00421ef7, type: 3}
   - {fileID: 4454315729979340930, guid: cd53834087f7a2744a145c3a6d6ef949, type: 3}
-  numberOfPlants: 30
-  mapWidth: 100
-  mapDepth: 100
+  - {fileID: 4454315729979340930, guid: 7a8ac636fb5a37643b570903d53f693b, type: 3}
+  - {fileID: 4454315729979340930, guid: 17c2033cd041a7545b7cd3f5d504cc41, type: 3}
+  numberOfPlants: 50
 --- !u!4 &1592850273
 Transform:
   m_ObjectHideFlags: 0

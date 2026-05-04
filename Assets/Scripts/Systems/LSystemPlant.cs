@@ -16,7 +16,7 @@ public class LSystemPlant : MonoBehaviour
     public Rule[] rules;
     public int iterations = 5;
     public float angle = 25.7f;
-    public float branchLength = 1f;
+    public float branchLength = 0.1f;
 
     [Header("3D Settings")]
     public GameObject branchPrefab;
@@ -34,6 +34,12 @@ public class LSystemPlant : MonoBehaviour
 
     void Start()
     {
+        branchLength = Random.Range(0.05f, 0.15f);
+        branchThickness = Random.Range(0.03f, 0.07f);
+        randomness = Random.Range(0.05f, 0.15f);
+
+        plantColor = Random.ColorHSV(0.0f, 1.0f, 0.5f, 1.0f, 0.5f, 1.0f);
+
         GenerateString();
         DrawPlant();
 
@@ -137,6 +143,9 @@ public class LSystemPlant : MonoBehaviour
             myRenderer.material = meshFilters[0].GetComponent<MeshRenderer>().sharedMaterial;
             myRenderer.material.color = plantColor;
         }
+
+        MeshCollider myCollider = gameObject.AddComponent<MeshCollider>();
+        myCollider.sharedMesh = myMeshFilter.sharedMesh;
 
         foreach (Transform child in transform)
         {
