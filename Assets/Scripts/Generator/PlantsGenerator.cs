@@ -24,10 +24,13 @@ public class PlantsGenerator : MonoBehaviour
 
     public void SpawnPlants()
     {
+
+        float padding = 2f;
+
         for (int i = 0; i < numberOfPlants; i++)
         {
-            float randomX = Random.Range(0, physicalMapWidth);
-            float randomZ = Random.Range(0, physicalMapDepth);
+            float randomX = Random.Range(padding, physicalMapWidth - padding);
+            float randomZ = Random.Range(padding, physicalMapDepth - padding);
 
             Vector3 rayStart = new Vector3(randomX, 200f, randomZ);
 
@@ -36,6 +39,11 @@ public class PlantsGenerator : MonoBehaviour
                 float waterHeight = TerrainGenerationData.waterLevel * TerrainGenerationData.heightMultiplier;
 
                 if (hit.point.y <= waterHeight + 0.5f)
+                {
+                    continue;
+                }
+
+                if (hit.collider.name.StartsWith("Wall_") || hit.collider.name == "GiantWalls")
                 {
                     continue;
                 }

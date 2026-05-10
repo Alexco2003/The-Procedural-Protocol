@@ -50,6 +50,7 @@ public class BiomeGenerator : MonoBehaviour
 
         GenerateMaps();
         ConstructMesh();
+        ConstructWalls();
     }
 
 
@@ -194,5 +195,56 @@ public class BiomeGenerator : MonoBehaviour
         }
 
         meshCollider.sharedMesh = mesh;
+    }
+
+    void ConstructWalls()
+    {
+        Transform oldWalls = transform.Find("GiantWalls");
+        if (oldWalls != null)
+        {
+            DestroyImmediate(oldWalls.gameObject);
+        }
+
+        GameObject wallParent = new GameObject("GiantWalls");
+        wallParent.transform.parent = this.transform;
+        wallParent.transform.localPosition = Vector3.zero;
+
+        float realWidth = (mapWidth - 1) * meshScale;
+        float realLength = (mapHeight - 1) * meshScale;
+
+        float wallHeight = heightMultiplier * 1.5f;
+        float wallThickness = 10f;
+
+        Material wallMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        wallMaterial.color = new Color(0.4f, 0.4f, 0.4f);
+
+
+        CreateWall(wallParent.transform, wallMaterial,
+            new Vector3(realWidth / 2f, wallHeight / 2f, -wallThickness / 2f),
+            new Vector3(realWidth + wallThickness * 2f, wallHeight, wallThickness), "Wall_South");
+
+        CreateWall(wallParent.transform, wallMaterial,
+            new Vector3(realWidth / 2f, wallHeight / 2f, realLength + wallThickness / 2f),
+            new Vector3(realWidth + wallThickness * 2f, wallHeight, wallThickness), "Wall_North");
+
+        CreateWall(wallParent.transform, wallMaterial,
+            new Vector3(-wallThickness / 2f, wallHeight / 2f, realLength / 2f),
+            new Vector3(wallThickness, wallHeight, realLength), "Wall_West");
+
+        CreateWall(wallParent.transform, wallMaterial,
+            new Vector3(realWidth + wallThickness / 2f, wallHeight / 2f, realLength / 2f),
+            new Vector3(wallThickness, wallHeight, realLength), "Wall_East");
+    }
+
+    void CreateWall(Transform parent, Material mat, Vector3 position, Vector3 scale, string name)
+    {
+        GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        wall.name = name;
+        wall.transform.parent = parent;
+
+        wall.transform.localPosition = position;
+        wall.transform.localScale = scale;
+
+        wall.GetComponent<MeshRenderer>().material = mat;
     }
 }
