@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlantsGenerator : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlantsGenerator : MonoBehaviour
 
     private float physicalMapWidth;
     private float physicalMapDepth;
+
+    public static event Action OnWorldGenerated;
 
     void Start()
     {
@@ -29,8 +32,8 @@ public class PlantsGenerator : MonoBehaviour
 
         for (int i = 0; i < numberOfPlants; i++)
         {
-            float randomX = Random.Range(padding, physicalMapWidth - padding);
-            float randomZ = Random.Range(padding, physicalMapDepth - padding);
+            float randomX = UnityEngine.Random.Range(padding, physicalMapWidth - padding);
+            float randomZ = UnityEngine.Random.Range(padding, physicalMapDepth - padding);
 
             Vector3 rayStart = new Vector3(randomX, 200f, randomZ);
 
@@ -48,15 +51,20 @@ public class PlantsGenerator : MonoBehaviour
                     continue;
                 }
 
-                GameObject prefabToSpawn = plantTypes[Random.Range(0, plantTypes.Length)];
-                Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+                GameObject prefabToSpawn = plantTypes[UnityEngine.Random.Range(0, plantTypes.Length)];
+                Quaternion randomRotation = Quaternion.Euler(0, UnityEngine.Random.Range(0f, 360f), 0);
 
                 GameObject newPlant = Instantiate(prefabToSpawn, hit.point, randomRotation);
                 newPlant.transform.parent = this.transform;
 
-                float scale = Random.Range(0.15f, 0.4f);
+                float scale = UnityEngine.Random.Range(0.15f, 0.4f);
                 newPlant.transform.localScale = new Vector3(scale, scale, scale);
             }
+        }
+
+        if (OnWorldGenerated != null)
+        {
+            OnWorldGenerated.Invoke();
         }
     }
 }
