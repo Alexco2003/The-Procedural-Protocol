@@ -195,6 +195,8 @@ public class BiomeGenerator : MonoBehaviour
         }
 
         meshCollider.sharedMesh = mesh;
+
+        gameObject.layer = LayerMask.NameToLayer("Ground");
     }
 
     void ConstructWalls()
