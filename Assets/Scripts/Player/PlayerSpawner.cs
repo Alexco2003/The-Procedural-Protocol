@@ -13,14 +13,19 @@ public class PlayerSpawner : MonoBehaviour
     private float physicalMapWidth;
     private float physicalMapDepth;
 
+    private bool isTerrainReady = false;
+    private bool arePlantsReady = false;
+
     private void OnEnable()
     {
-        PlantsGenerator.OnWorldGenerated += SpawnPlayerAndCamera;
+        BiomeGenerator.OnTerrainGenerated += TerrainFinished;
+        PlantsGenerator.OnPlantsGenerated += PlantsFinished;
     }
 
     private void OnDisable()
     {
-        PlantsGenerator.OnWorldGenerated -= SpawnPlayerAndCamera;
+        BiomeGenerator.OnTerrainGenerated -= TerrainFinished;
+        PlantsGenerator.OnPlantsGenerated -= PlantsFinished;
     }
 
     void Start()
@@ -31,6 +36,29 @@ public class PlayerSpawner : MonoBehaviour
 
         physicalMapWidth = TerrainGenerationData.mapWidth * TerrainGenerationData.meshScale;
         physicalMapDepth = TerrainGenerationData.mapHeight * TerrainGenerationData.meshScale;
+    }
+
+    private void PlantsFinished()
+    {
+        arePlantsReady = true;
+        Debug.Log("Plants generation complete.");
+        CheckIfWorldIsReady();
+    }
+
+    private void TerrainFinished()
+    {
+        isTerrainReady = true;
+        Debug.Log("Terrain generation complete.");
+        CheckIfWorldIsReady();
+    }
+
+    private void CheckIfWorldIsReady()
+    {
+        if (isTerrainReady && arePlantsReady)
+        {
+            Debug.Log("World generation complete. Spawning player and camera.");
+            SpawnPlayerAndCamera();
+        }
     }
 
     void SpawnPlayerAndCamera()

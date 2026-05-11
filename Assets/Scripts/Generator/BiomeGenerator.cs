@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class BiomeGenerator : MonoBehaviour
@@ -23,6 +24,7 @@ public class BiomeGenerator : MonoBehaviour
     private float[,] elevationMap;
     private float[,] moistureMap;
 
+    public static event Action OnTerrainGenerated;
     void Start()
     {
         // load settings
@@ -39,18 +41,23 @@ public class BiomeGenerator : MonoBehaviour
 
         // if seeds are set to -1, generate random seeds for elevation and moisture
         if (TerrainGenerationData.elevationSeed == -1f)
-            elevationSeed = Random.Range(0f, 10000f);
+            elevationSeed = UnityEngine.Random.Range(0f, 10000f);
         else
             elevationSeed = TerrainGenerationData.elevationSeed;
 
         if (TerrainGenerationData.moistureSeed == -1f)
-            moistureSeed = Random.Range(0f, 10000f);
+            moistureSeed = UnityEngine.Random.Range(0f, 10000f);
         else
             moistureSeed = TerrainGenerationData.moistureSeed;
 
         GenerateMaps();
         ConstructMesh();
         ConstructWalls();
+
+        if (OnTerrainGenerated != null)
+        {
+            OnTerrainGenerated.Invoke();
+        }
     }
 
 

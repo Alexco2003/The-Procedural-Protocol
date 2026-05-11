@@ -12,7 +12,7 @@ public class PlantsGenerator : MonoBehaviour
     private float physicalMapWidth;
     private float physicalMapDepth;
 
-    public static event Action OnWorldGenerated;
+    public static event Action OnPlantsGenerated;
 
     void Start()
     {
@@ -62,9 +62,9 @@ public class PlantsGenerator : MonoBehaviour
             }
         }
 
-        if (OnWorldGenerated != null)
+        if (OnPlantsGenerated != null)
         {
-            OnWorldGenerated.Invoke();
+            OnPlantsGenerated.Invoke();
         }
     }
 }
