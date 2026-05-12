@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 8017746645915022029}
   - component: {fileID: 3030800648937299303}
   - component: {fileID: 2986756682463577817}
+  - component: {fileID: -7203630001267546004}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -256,9 +257,27 @@ MonoBehaviour:
   jumpForce: 10
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  dashKey: 113
+  dashForce: 30
+  dashDuration: 0.2
+  dashCooldown: 1.5
   jumpKey: 32
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   orientation: {fileID: 8642281237260404616}
+--- !u!114 &-7203630001267546004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704702812064897653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e949f68b8fab03146b7abf1c84ed19da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  currentHP: 0
+  currentMaxHP: 0

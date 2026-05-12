@@ -8,7 +8,9 @@ public class PlayerSpawner : MonoBehaviour
 
     [Header("Loading Screen Setup")]
     public GameObject loadingCanvas;
+    public GameObject HUDCanvas;
     public Camera loadingCamera;
+
 
     private float physicalMapWidth;
     private float physicalMapDepth;
@@ -32,6 +34,7 @@ public class PlayerSpawner : MonoBehaviour
     {
 
         if (loadingCanvas != null) loadingCanvas.SetActive(true);
+        if (HUDCanvas != null) HUDCanvas.SetActive(false);
         if (loadingCamera != null) loadingCamera.gameObject.SetActive(true);
 
         physicalMapWidth = TerrainGenerationData.mapWidth * TerrainGenerationData.meshScale;
@@ -106,6 +109,7 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         if (loadingCanvas != null) loadingCanvas.SetActive(false);
+        if (HUDCanvas != null) HUDCanvas.SetActive(true);
         if (loadingCamera != null) loadingCamera.gameObject.SetActive(false);
     }
 }
