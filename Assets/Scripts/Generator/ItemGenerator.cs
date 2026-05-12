@@ -113,10 +113,10 @@ public class ItemGenerator : MonoBehaviour
         item.itemName = $"{itemPrefixes[Random.Range(0, itemPrefixes.Count)]} {type}";
 
         float mult = 1f;
-        if (item.rarity == ItemRarity.Uncommon) mult = 2f;
-        if (item.rarity == ItemRarity.Rare) mult = 4f;
-        if (item.rarity == ItemRarity.Epic) mult = 7f;
-        if (item.rarity == ItemRarity.Legendary) mult = 12f;
+        if (item.rarity == ItemRarity.Uncommon) mult = 1.5f;
+        if (item.rarity == ItemRarity.Rare) mult = 2f;
+        if (item.rarity == ItemRarity.Epic) mult = 3.5f;
+        if (item.rarity == ItemRarity.Legendary) mult = 5f;
 
         List<int> availableStats = new List<int> { 0, 1, 2, 3, 4, 5 };
 

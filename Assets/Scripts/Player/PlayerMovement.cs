@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode dashKey = KeyCode.Q;
     public float dashForce = 30f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1.5f;
+    public float dashCooldown = 3.5f;
 
     private bool readyToDash;
     private bool isDashing;

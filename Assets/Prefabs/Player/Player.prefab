@@ -260,7 +260,7 @@ MonoBehaviour:
   dashKey: 113
   dashForce: 30
   dashDuration: 0.2
-  dashCooldown: 1.5
+  dashCooldown: 3.5
   jumpKey: 32
   playerHeight: 2
   whatIsGround:

@@ -111,9 +111,13 @@ public class CollectibleItem : MonoBehaviour
             if (pMove != null)
             {
                 pMove.moveSpeed += data.moveSpeedBoost;
+                if (pMove.moveSpeed > 18f) pMove.moveSpeed = 18f;
+
                 pMove.dashForce += data.dashForceBoost;
+                if (pMove.dashForce > 60f) pMove.dashForce = 60f;
+
                 pMove.dashCooldown -= data.dashCooldownReduction;
-                if (pMove.dashCooldown < 0.2f) pMove.dashCooldown = 0.2f;
+                if (pMove.dashCooldown < 0.3f) pMove.dashCooldown = 0.3f;
             }
 
             Debug.Log($"Item collected: {data.itemName} (Rarity: {data.rarity})");
