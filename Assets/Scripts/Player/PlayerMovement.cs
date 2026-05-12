@@ -13,6 +13,15 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     bool readyToJump;
 
+    [Header("Dash")]
+    public KeyCode dashKey = KeyCode.Q;
+    public float dashForce = 30f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1.5f;
+
+    private bool readyToDash;
+    private bool isDashing;
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
 
@@ -35,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true;
+        readyToDash = true;
     }
 
     private void Update()
@@ -67,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if (Input.GetKeyDown(dashKey) && readyToDash)
+        {
+            Dash();
+        }
     }
 
     private void MovePlayer()
@@ -81,12 +96,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
-        if (flatVel.magnitude > moveSpeed)
+        if (!isDashing)
         {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+            if (flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
         }
     }
 
@@ -99,6 +117,32 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void Dash()
+    {
+        readyToDash = false;
+        isDashing = true;
+
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+        Vector3 forceToApply = orientation.forward * dashForce;
+
+        rb.AddForce(forceToApply, ForceMode.Impulse);
+
+        Invoke(nameof(ResetDashState), dashDuration);
+
+        Invoke(nameof(ResetDashCooldown), dashCooldown);
+    }
+
+    private void ResetDashState()
+    {
+        isDashing = false;
+    }
+
+    private void ResetDashCooldown()
+    {
+        readyToDash = true;
     }
 
 
