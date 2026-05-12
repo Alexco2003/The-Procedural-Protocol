@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField heightMultiplierInput;
     public TMP_InputField noiseScaleInput;
     public TMP_InputField numberOfPlantsInput;
+    public TMP_InputField numberOfItemsInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -31,6 +32,7 @@ public class MainMenuController : MonoBehaviour
         if (heightMultiplierInput) heightMultiplierInput.text = TerrainGenerationData.heightMultiplier.ToString();
         if (noiseScaleInput) noiseScaleInput.text = TerrainGenerationData.noiseScale.ToString();
         if (numberOfPlantsInput) numberOfPlantsInput.text = PlantsGenerationData.numberOfPlants.ToString(); 
+        if (numberOfItemsInput) numberOfItemsInput.text = ItemGenerationData.numberOfItems.ToString();
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -49,6 +51,7 @@ public class MainMenuController : MonoBehaviour
         if (float.TryParse(noiseScaleInput.text, out float ns)) TerrainGenerationData.noiseScale = Mathf.Clamp(ns, 0.5f, 15f);
 
         if (int.TryParse(numberOfPlantsInput.text, out int np)) PlantsGenerationData.numberOfPlants = Mathf.Clamp(np, 10, 200);
+        if (int.TryParse(numberOfItemsInput.text, out int ni)) ItemGenerationData.numberOfItems = Mathf.Clamp(ni, 10, 100);
 
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
         else TerrainGenerationData.elevationSeed = -1f;
@@ -67,6 +70,7 @@ public class MainMenuController : MonoBehaviour
                   $"Moisture Seed: {(TerrainGenerationData.moistureSeed == -1f ? "Random" : TerrainGenerationData.moistureSeed.ToString())}, " +
                   $"Octaves: {TerrainGenerationData.octaves}, Persistence: {TerrainGenerationData.persistence}, Water Level: {TerrainGenerationData.waterLevel}" +
                   $"Number of Plants: {PlantsGenerationData.numberOfPlants}." +
+                  $"Number of Items: {ItemGenerationData.numberOfItems}." +
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }

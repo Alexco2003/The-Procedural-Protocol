@@ -38,6 +38,8 @@ public class ItemGenerator : MonoBehaviour
     {
         physicalMapWidth = TerrainGenerationData.mapWidth * TerrainGenerationData.meshScale;
         physicalMapDepth = TerrainGenerationData.mapHeight * TerrainGenerationData.meshScale;
+
+        numberOfItemsToSpawn = ItemGenerationData.numberOfItems;
     }
 
     private void SpawnWorldItems()
@@ -201,7 +203,7 @@ public class ItemGenerator : MonoBehaviour
 
     private ItemRarity GetRandomRarity()
     {
-        float roll = Random.Range(0f, 10f);
+        float roll = Random.Range(0f, 100f);
         if (roll <= 3f) return ItemRarity.Legendary;
         if (roll <= 10f) return ItemRarity.Epic;
         if (roll <= 25f) return ItemRarity.Rare;
