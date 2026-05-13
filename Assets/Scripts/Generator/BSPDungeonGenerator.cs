@@ -24,7 +24,7 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     private TileType[,] grid;
 
-    public List<Vector2Int> roomCenters = new List<Vector2Int>();
+    public List<RoomData> rooms = new List<RoomData>();
 
     public static event Action OnDungeonGenerated;
 
@@ -46,7 +46,7 @@ public class BSPDungeonGenerator : MonoBehaviour
     void GenerateDungeon()
     {
         grid = new TileType[gridWidth, gridDepth];
-        roomCenters.Clear();
+        rooms.Clear();
 
         List<Leaf> leaves = new List<Leaf>();
         Leaf root = new Leaf(0, 0, gridWidth, gridDepth, minPartitionSize, minRoomSize);
@@ -88,23 +88,25 @@ public class BSPDungeonGenerator : MonoBehaviour
         {
             if (l.room != null)
             {
-                int cx = l.room.x + l.room.width / 2;
-                int cy = l.room.y + l.room.height / 2;
-                roomCenters.Add(new Vector2Int(cx, cy));
+                RoomData newRoom = new RoomData();
+                newRoom.centerTile = new Vector2Int(l.room.x + l.room.width / 2, l.room.y + l.room.height / 2);
 
                 for (int x = l.room.x; x < l.room.x + l.room.width; x++)
                 {
                     for (int y = l.room.y; y < l.room.y + l.room.height; y++)
                     {
                         grid[x, y] = TileType.Floor;
+                        newRoom.floorTiles.Add(new Vector2Int(x, y));
                     }
                 }
+
+                rooms.Add(newRoom);
             }
         }
 
-        for (int i = 0; i < roomCenters.Count - 1; i++)
+        for (int i = 0; i < rooms.Count - 1; i++)
         {
-            ConnectWithAStar(roomCenters[i], roomCenters[i + 1]);
+            ConnectWithAStar(rooms[i].floorTiles[0], rooms[i + 1].floorTiles[0]);
         }
 
         InstantiateDungeon();
@@ -270,5 +272,12 @@ public class BSPDungeonGenerator : MonoBehaviour
                 room = new Rect(x + roomX, y + roomY, roomW, roomH);
             }
         }
+    }
+
+    public class RoomData
+    {
+        public List<Vector2Int> floorTiles = new List<Vector2Int>();
+        public bool isSafeRoom = false;
+        public Vector2Int centerTile;
     }
 }

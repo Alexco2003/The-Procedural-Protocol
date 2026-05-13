@@ -54,16 +54,21 @@ public class DungeonPlayerSpawner : MonoBehaviour
     {
         BSPDungeonGenerator generator = Object.FindFirstObjectByType<BSPDungeonGenerator>();
 
-        if (generator == null || generator.roomCenters.Count == 0)
+        if (generator == null || generator.rooms.Count == 0)
         {
             Debug.LogError("Dungeon generator not found or no rooms generated! Cannot spawn player.");
             return;
         }
 
-        int randomIndex = Random.Range(0, generator.roomCenters.Count);
-        Vector2Int spawnRoom = generator.roomCenters[randomIndex];
+        int randomIndex = Random.Range(0, generator.rooms.Count);
+        BSPDungeonGenerator.RoomData safeRoom = generator.rooms[randomIndex];
+        safeRoom.isSafeRoom = true;
 
-        Vector3 spawnPos = new Vector3(spawnRoom.x * generator.tileSize, 2f, spawnRoom.y * generator.tileSize);
+        Vector2Int spawnTile = safeRoom.centerTile;
+
+        safeRoom.floorTiles.Remove(spawnTile);
+
+        Vector3 spawnPos = new Vector3(spawnTile.x * generator.tileSize, 2f, spawnTile.y * generator.tileSize);
 
         GameObject playerInstance = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
         GameObject camHolderInstance = Instantiate(cameraHolderPrefab, spawnPos, Quaternion.identity);

@@ -1,5 +1,5 @@
 [System.Serializable]
-public enum NPCClass { Warrior, Mage, Rogue, Archer, Paladin }
+public enum NPCClass { Warrior, Paladin, Assassin, Rogue }
 
 [System.Serializable]
 public enum ItemRarity { Common, Uncommon, Rare, Epic, Legendary }

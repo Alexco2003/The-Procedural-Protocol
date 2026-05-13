@@ -12,10 +12,9 @@ public class NPCData
     public float maxHp;
     public float damage;
     public float armor;
+    public float moveSpeed;
 
     public bool isDead = false;
-
-    public List<ItemData> inventory = new List<ItemData>();
 
     public NPCData() { }
 }
