@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 
 public class BSPDungeonGenerator : MonoBehaviour
 {
@@ -110,6 +111,10 @@ public class BSPDungeonGenerator : MonoBehaviour
         }
 
         InstantiateDungeon();
+
+        NavMeshSurface surface = gameObject.AddComponent<NavMeshSurface>();
+        // surface.defaultArea = 0;
+        surface.BuildNavMesh();
     }
 
     void ConnectWithAStar(Vector2Int start, Vector2Int end)

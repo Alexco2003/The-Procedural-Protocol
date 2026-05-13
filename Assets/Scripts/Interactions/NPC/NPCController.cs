@@ -1,15 +1,182 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.AI;
 
 public class NPCController : MonoBehaviour
 {
     public NPCData data;
     private Transform player;
 
+    [Header("UI Settings")]
+    public float showDistance = 60f;
     private TextMeshPro textMesh;
-    private float showDistance = 50f;
+
+    [Header("AI Settings")]
+    public float sightRange = 15f;
+    public float wanderRadius = 30f;
+    public float waitAtDestination = 3f;
+
+    private NavMeshAgent agent;
+    private float waitTimer;
+    
+    private enum AIState { Wander, Chase }
+    private AIState currentState;
 
     void Start()
+    {
+        SetupColliderAndUI();
+        FindPlayer();
+
+        agent = gameObject.AddComponent<NavMeshAgent>();
+        agent.speed = data.moveSpeed;
+        agent.stoppingDistance = 1.5f;
+        agent.acceleration = 20f;
+
+        agent.baseOffset = 1.5f;
+
+        agent.updateRotation = false;
+
+        currentState = AIState.Wander;
+   
+    }
+
+    void Update()
+    {
+        if (player == null)
+        {
+            FindPlayer();
+            return;
+        }
+
+        UpdateUI();
+        HandleAI();
+
+        OrientTowardsMovement();
+    }
+
+    private void HandleAI()
+    {
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        bool canSeePlayer = false;
+
+        if (distanceToPlayer <= sightRange)
+        {
+            Vector3 enemyEyes = transform.position + Vector3.up * 1.5f;
+            Vector3 playerCenter = player.position + Vector3.up * 1.0f;
+
+            Vector3 dirToPlayer = (playerCenter - enemyEyes).normalized;
+
+            // Debug.DrawRay(enemyEyes, dirToPlayer * sightRange, Color.red);
+
+            if (Physics.Raycast(enemyEyes, dirToPlayer, out RaycastHit hit, sightRange))
+            {
+                if (hit.collider.CompareTag("Player") || hit.collider.transform.root.CompareTag("Player"))
+                {
+                    canSeePlayer = true;
+                }
+            }
+        }
+
+        if (canSeePlayer)
+        {
+            currentState = AIState.Chase;
+        }
+        else
+        {
+            currentState = AIState.Wander;
+        }
+
+
+        switch (currentState)
+        {
+            case AIState.Wander:
+                if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    waitTimer += Time.deltaTime;
+
+                    if (waitTimer >= waitAtDestination)
+                    {
+                        if (RandomNavSphere(transform.position, wanderRadius, -1, out Vector3 newPos))
+                        {
+                            agent.SetDestination(newPos);
+                            waitTimer = 0f;
+                        }
+                    }
+                }
+                break;
+
+            case AIState.Chase:
+                agent.SetDestination(player.position);
+                break;
+        }
+    }
+
+    private void OrientTowardsMovement()
+    {
+     
+        Vector3 moveDirection = agent.desiredVelocity;
+        moveDirection.y = 0f;
+
+        if (moveDirection.sqrMagnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            targetRotation *= Quaternion.Euler(0, 90f, 0);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
+    }
+
+    public static bool RandomNavSphere(Vector3 origin, float dist, int layermask, out Vector3 result)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
+        randDirection += origin;
+
+        NavMeshHit navHit;
+  
+        if (NavMesh.SamplePosition(randDirection, out navHit, dist, layermask))
+        {
+            result = navHit.position;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return false;
+    }
+
+
+    private void OrientTowardsPlayer()
+    {
+        Vector3 directionToPlayer = player.position - transform.position;
+        directionToPlayer.y = 0f;
+
+        if (directionToPlayer != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+            targetRotation *= Quaternion.Euler(0, 90f, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+    }
+
+    private void UpdateUI()
+    {
+        float dist = Vector3.Distance(transform.position, player.position);
+        if (dist <= showDistance)
+        {
+            textMesh.enabled = true;
+            if (Camera.main != null)
+            {
+                textMesh.transform.LookAt(textMesh.transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
+            }
+        }
+        else
+        {
+            textMesh.enabled = false;
+        }
+    }
+
+    private void SetupColliderAndUI()
     {
         SphereCollider col = GetComponent<SphereCollider>();
         if (col == null)
@@ -31,50 +198,12 @@ public class NPCController : MonoBehaviour
 
         textMesh.text = GenerateUIText();
         textMesh.enabled = false;
-
-        FindPlayer();
     }
 
     void FindPlayer()
     {
         GameObject pObj = GameObject.FindGameObjectWithTag("Player");
         if (pObj != null) player = pObj.transform;
-    }
-
-    void Update()
-    {
-        if (player == null)
-        {
-            FindPlayer();
-            return;
-        }
-
-        float dist = Vector3.Distance(transform.position, player.position);
-        if (dist <= showDistance)
-        {
-            textMesh.enabled = true;
-            if (Camera.main != null)
-            {
-                textMesh.transform.LookAt(textMesh.transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
-            }
-        }
-        else
-        {
-            textMesh.enabled = false;
-        }
-
-        Vector3 directionToPlayer = player.position - transform.position;
-
-        directionToPlayer.y = 0f;
-
-        if (directionToPlayer != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
-
-            targetRotation *= Quaternion.Euler(0, 90f, 0);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-        }
     }
 
     string GenerateUIText()
