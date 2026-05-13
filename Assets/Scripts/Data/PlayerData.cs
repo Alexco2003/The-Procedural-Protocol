@@ -8,6 +8,10 @@ public static class PlayerData
     public static float Armor = 10f;
     public static float Damage = 20f;
 
+    public static float MoveSpeed = 7f;
+    public static float DashForce = 30f;
+    public static float DashCooldown = 3.5f;
+
     public static void ResetStats()
     {
         HP = 100f;
@@ -15,5 +19,8 @@ public static class PlayerData
         Armor = 10f;
         Damage = 20f;
 
+        MoveSpeed = 7f;
+        DashForce = 30f;
+        DashCooldown = 3.5f;
     }
 }

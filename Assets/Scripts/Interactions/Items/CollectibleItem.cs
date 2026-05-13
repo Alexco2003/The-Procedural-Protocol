@@ -110,12 +110,15 @@ public class CollectibleItem : MonoBehaviour
 
             if (pMove != null)
             {
+                PlayerData.MoveSpeed += data.moveSpeedBoost;
                 pMove.moveSpeed += data.moveSpeedBoost;
                 if (pMove.moveSpeed > 18f) pMove.moveSpeed = 18f;
 
+                PlayerData.DashForce += data.dashForceBoost;
                 pMove.dashForce += data.dashForceBoost;
                 if (pMove.dashForce > 60f) pMove.dashForce = 60f;
 
+                PlayerData.DashCooldown -= data.dashCooldownReduction;
                 pMove.dashCooldown -= data.dashCooldownReduction;
                 if (pMove.dashCooldown < 0.3f) pMove.dashCooldown = 0.3f;
             }

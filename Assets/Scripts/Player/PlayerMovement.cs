@@ -45,6 +45,10 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         readyToJump = true;
         readyToDash = true;
+
+        moveSpeed = PlayerData.MoveSpeed;
+        dashForce = PlayerData.DashForce;
+        dashCooldown = PlayerData.DashCooldown;
     }
 
     private void Update()

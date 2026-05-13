@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ public class BSPDungeonGenerator : MonoBehaviour
     public int minPartitionSize = 10;
     public int minRoomSize = 4;
 
+    [Header("Scale Settings")]
+    public float tileSize = 4f;
+    public float wallHeightOffset = 2f;
+
     [Header("Prefabs")]
     public GameObject floorPrefab;
     public GameObject wallPrefab;
@@ -21,9 +26,16 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     public List<Vector2Int> roomCenters = new List<Vector2Int>();
 
+    public static event Action OnDungeonGenerated;
+
     void Start()
     {
         GenerateDungeon();
+
+        if (OnDungeonGenerated != null)
+        {
+            OnDungeonGenerated.Invoke();
+        }
     }
 
     void GenerateDungeon()
@@ -44,7 +56,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             {
                 if (l.leftChild == null && l.rightChild == null)
                 {
-                    if (l.width > minPartitionSize * 2 || l.height > minPartitionSize * 2 || Random.value > 0.2f)
+                    if (l.width > minPartitionSize * 2 || l.height > minPartitionSize * 2 || UnityEngine.Random.value > 0.2f)
                     {
                         if (l.Split())
                         {
@@ -158,7 +170,7 @@ public class BSPDungeonGenerator : MonoBehaviour
             for (int y = 0; y < gridDepth; y++)
             {
                 TileType type = grid[x, y];
-                Vector3 worldPos = new Vector3(x, 0, y);
+                Vector3 worldPos = new Vector3(x * tileSize, 0, y * tileSize);
 
                 if (type == TileType.Floor)
                 {
@@ -169,7 +181,7 @@ public class BSPDungeonGenerator : MonoBehaviour
                     if (IsAdjacentToFloor(x, y))
                     {
                         grid[x, y] = TileType.Wall;
-                        Vector3 wallPos = new Vector3(x, 1f, y);
+                        Vector3 wallPos = new Vector3(x * tileSize, wallHeightOffset, y * tileSize);
                         Instantiate(wallPrefab, wallPos, Quaternion.identity, dungeonParent.transform);
                     }
                 }
@@ -215,14 +227,14 @@ public class BSPDungeonGenerator : MonoBehaviour
         {
             if (leftChild != null || rightChild != null) return false;
 
-            bool splitH = Random.value > 0.5f;
+            bool splitH = UnityEngine.Random.value > 0.5f;
             if (width > height && (float)width / height >= 1.25f) splitH = false;
             else if (height > width && (float)height / width >= 1.25f) splitH = true;
 
             int max = (splitH ? height : width) - minPartitionSize;
             if (max <= minPartitionSize) return false;
 
-            int split = Random.Range(minPartitionSize, max);
+            int split = UnityEngine.Random.Range(minPartitionSize, max);
 
             if (splitH)
             {
@@ -246,10 +258,10 @@ public class BSPDungeonGenerator : MonoBehaviour
             }
             else
             {
-                int roomW = Random.Range(minRoomSize, width - 2);
-                int roomH = Random.Range(minRoomSize, height - 2);
-                int roomX = Random.Range(1, width - roomW - 1);
-                int roomY = Random.Range(1, height - roomH - 1);
+                int roomW = UnityEngine.Random.Range(minRoomSize, width - 2);
+                int roomH = UnityEngine.Random.Range(minRoomSize, height - 2);
+                int roomX = UnityEngine.Random.Range(1, width - roomW - 1);
+                int roomY = UnityEngine.Random.Range(1, height - roomH - 1);
                 room = new Rect(x + roomX, y + roomY, roomW, roomH);
             }
         }
