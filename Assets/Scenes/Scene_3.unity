@@ -304,9 +304,10 @@ MonoBehaviour:
   gridDepth: 40
   minPartitionSize: 10
   minRoomSize: 4
+  tileSize: 4
+  wallHeightOffset: 2
   floorPrefab: {fileID: 4527875978656112806, guid: 89d99b429d1600a4680a07ade4f28e4a, type: 3}
   wallPrefab: {fileID: 6283408937542347066, guid: 6d939584e7eed1946b63dd6d3385c114, type: 3}
-  roomCenters: []
 --- !u!1 &489762194
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +357,7 @@ MonoBehaviour:
   loadingCanvas: {fileID: 1628588909}
   HUDCanvas: {fileID: 1501809053}
   loadingCamera: {fileID: 1366455381}
+  loadingScreenDelay: 2.5
 --- !u!1 &679025159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1047,7 @@ Transform:
   - {fileID: 475858717}
   - {fileID: 2057628249}
   - {fileID: 489762195}
+  - {fileID: 1414852285}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1245145393
@@ -1430,6 +1433,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1368671069}
   m_CullTransparentMesh: 1
+--- !u!1 &1414852284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1414852285}
+  - component: {fileID: 1414852286}
+  m_Layer: 0
+  m_Name: NPCManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1414852285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414852284}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 936983240}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1414852286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414852284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54810db840a19c4da5a549b826b797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCGenerator
+  warriorPrefabs:
+  - {fileID: 7680529403145111814, guid: 853665bfc6ac8324784ed3fc27bb7f73, type: 3}
+  - {fileID: 5842622197136578323, guid: 18127f30efda35d4fbfe343440d1725f, type: 3}
+  - {fileID: 1246918758467806929, guid: d7c5ce0a5be36014689a9a18d764c26e, type: 3}
+  - {fileID: 402653652035122985, guid: eab590567d6215549aa164cfbec9adfe, type: 3}
+  - {fileID: 3262878344813469888, guid: f8147a1a777b5d440bce2f1043687381, type: 3}
+  paladinPrefabs:
+  - {fileID: 3661194903258598888, guid: 52d8e75ae31601f489af26fa70539261, type: 3}
+  - {fileID: 2144972431469085049, guid: c3f9221f010963f4f843ddd81a79f043, type: 3}
+  - {fileID: 809034063130156681, guid: befff11214a7b104cace0b47fa934c5f, type: 3}
+  - {fileID: 9040946383840886512, guid: 3884ea691c7b9ca4b9327a8ace85a319, type: 3}
+  - {fileID: 7088689032393230033, guid: 6b00776971d1e7649ba7ca22cae1d72c, type: 3}
+  assassinPrefabs:
+  - {fileID: 1357655287505828748, guid: 976e75d82ce31c6479717e8a71be3f1f, type: 3}
+  - {fileID: 218070912025237117, guid: 151685bda12269d4ba87df53f7993226, type: 3}
+  - {fileID: 1156680540414199998, guid: c9250b6a9581ab146850127ee38c6631, type: 3}
+  - {fileID: 1593985304190257047, guid: d3f7267953fd8384f9ac3399473081ce, type: 3}
+  - {fileID: 2845826720348335155, guid: 4e73bff8c94826e47baef7035fe5fdb7, type: 3}
+  roguePrefabs:
+  - {fileID: 7393685336832636115, guid: bc7fd9bd997d8904db4bae15918a9899, type: 3}
+  - {fileID: 6503413635788936976, guid: 375e0af2d659a964e9d194e714c81c27, type: 3}
+  - {fileID: 7318227769529052288, guid: a66d056a0e0553246815bfb823bf89e2, type: 3}
+  - {fileID: 397993045648193017, guid: a25b3723a425af04985bf9cb2f0d3334, type: 3}
+  - {fileID: 6405720371775361511, guid: f530662b6a3721c4c8294824b94b6304, type: 3}
+  minEnemiesPerRoom: 1
+  maxEnemiesPerRoom: 3
 --- !u!1 &1501809053
 GameObject:
   m_ObjectHideFlags: 0
