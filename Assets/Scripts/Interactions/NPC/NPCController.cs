@@ -16,6 +16,10 @@ public class NPCController : MonoBehaviour
     public float wanderRadius = 30f;
     public float waitAtDestination = 3f;
 
+    [Header("Combat Settings")]
+    public float attackCooldown = 1.5f;
+    private float lastAttackTime = -10f;
+
     private NavMeshAgent agent;
     private float waitTimer;
     
@@ -52,6 +56,53 @@ public class NPCController : MonoBehaviour
         HandleAI();
 
         OrientTowardsMovement();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") || collision.transform.root.CompareTag("Player"))
+        {
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                PlayerStats pStats = collision.transform.root.GetComponent<PlayerStats>();
+                if (pStats != null) pStats.TakeDamage(data.damage);
+
+                TakeDamage(PlayerData.Damage);
+
+                Vector3 pushDirection = (transform.position - collision.transform.position).normalized;
+                pushDirection.y = 0;
+
+                if (agent.isActiveAndEnabled) agent.velocity = pushDirection * 15f;
+
+                Rigidbody pRb = collision.transform.root.GetComponent<Rigidbody>();
+                if (pRb != null) pRb.AddForce(-pushDirection * 20f, ForceMode.Impulse);
+
+                lastAttackTime = Time.time;
+            }
+        }
+    }
+
+    public void TakeDamage(float amount)
+    {
+        float reducedDamage = amount - (data.armor * 0.1f);
+        reducedDamage = Mathf.Max(reducedDamage, 1f);
+
+        data.hp -= reducedDamage;
+
+        Debug.Log($"{data.npcName} has taken {reducedDamage} damage. Current HP: {data.hp}/{data.maxHp}");
+
+        textMesh.text = GenerateUIText();
+
+        if (data.hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log($"{data.npcName} a murit!");
+        Destroy(gameObject);
     }
 
     private void HandleAI()
