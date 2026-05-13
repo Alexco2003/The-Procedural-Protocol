@@ -10,6 +10,7 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject loadingCanvas;
     public GameObject HUDCanvas;
     public Camera loadingCamera;
+    public float loadingScreenDelay = 2.5f;
 
 
     private float physicalMapWidth;
@@ -108,8 +109,14 @@ public class PlayerSpawner : MonoBehaviour
             Debug.LogError("Failed to spawn player after " + maxAttempts + " attempts. Please check the terrain and ensure there are valid spawn points.");
         }
 
+        Invoke("FinishLoadingScreen", loadingScreenDelay);
+    }
+
+    void FinishLoadingScreen()
+    {
         if (loadingCanvas != null) loadingCanvas.SetActive(false);
         if (HUDCanvas != null) HUDCanvas.SetActive(true);
         if (loadingCamera != null) loadingCamera.gameObject.SetActive(false);
+        Debug.Log("Loading over.");
     }
 }
