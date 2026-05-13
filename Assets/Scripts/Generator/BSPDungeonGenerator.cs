@@ -30,6 +30,11 @@ public class BSPDungeonGenerator : MonoBehaviour
 
     void Start()
     {
+        gridWidth = DungeonData.dungeonSize;
+        gridDepth = DungeonData.dungeonSize;
+        minPartitionSize = DungeonData.roomComplexity;
+        minRoomSize = DungeonData.minRoomSize;
+
         GenerateDungeon();
 
         if (OnDungeonGenerated != null)

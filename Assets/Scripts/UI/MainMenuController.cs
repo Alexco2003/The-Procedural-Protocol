@@ -12,6 +12,9 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField noiseScaleInput;
     public TMP_InputField numberOfPlantsInput;
     public TMP_InputField numberOfItemsInput;
+    public TMP_InputField dungeonSizeInput;
+    public TMP_InputField roomComplexityInput;
+    public TMP_InputField roomMinSizeInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -33,6 +36,9 @@ public class MainMenuController : MonoBehaviour
         if (noiseScaleInput) noiseScaleInput.text = TerrainGenerationData.noiseScale.ToString();
         if (numberOfPlantsInput) numberOfPlantsInput.text = PlantsGenerationData.numberOfPlants.ToString(); 
         if (numberOfItemsInput) numberOfItemsInput.text = ItemGenerationData.numberOfItems.ToString();
+        if (dungeonSizeInput) dungeonSizeInput.text = DungeonData.dungeonSize.ToString();
+        if (roomComplexityInput) roomComplexityInput.text = DungeonData.roomComplexity.ToString();
+        if (roomMinSizeInput) roomMinSizeInput.text = DungeonData.minRoomSize.ToString();
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -52,6 +58,10 @@ public class MainMenuController : MonoBehaviour
 
         if (int.TryParse(numberOfPlantsInput.text, out int np)) PlantsGenerationData.numberOfPlants = Mathf.Clamp(np, 10, 200);
         if (int.TryParse(numberOfItemsInput.text, out int ni)) ItemGenerationData.numberOfItems = Mathf.Clamp(ni, 10, 100);
+        if (int.TryParse(dungeonSizeInput.text, out int ds)) DungeonData.dungeonSize = Mathf.Clamp(ds, 20, 100);
+        if (int.TryParse(roomComplexityInput.text, out int rc)) DungeonData.roomComplexity = 30 - Mathf.Clamp(rc, 9, 25);
+        if (int.TryParse(roomMinSizeInput.text, out int rms)) DungeonData.minRoomSize = Mathf.Clamp(rms, 3, 8);
+        if (DungeonData.roomComplexity < DungeonData.minRoomSize + 2) DungeonData.roomComplexity = DungeonData.minRoomSize + 2;
 
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
         else TerrainGenerationData.elevationSeed = -1f;
@@ -71,6 +81,9 @@ public class MainMenuController : MonoBehaviour
                   $"Octaves: {TerrainGenerationData.octaves}, Persistence: {TerrainGenerationData.persistence}, Water Level: {TerrainGenerationData.waterLevel}" +
                   $"Number of Plants: {PlantsGenerationData.numberOfPlants}." +
                   $"Number of Items: {ItemGenerationData.numberOfItems}." +
+                  $"Dungeon Size: {DungeonData.dungeonSize}." +
+                  $"Room Complexity: {DungeonData.roomComplexity}." +
+                  $"Room Min Size: {DungeonData.minRoomSize}." +
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }
