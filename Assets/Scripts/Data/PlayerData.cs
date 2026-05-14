@@ -12,6 +12,8 @@ public static class PlayerData
     public static float DashForce = 30f;
     public static float DashCooldown = 3.5f;
 
+    public static int enemiesDefeated = 0;
+
     public static void ResetStats()
     {
         HP = 100f;

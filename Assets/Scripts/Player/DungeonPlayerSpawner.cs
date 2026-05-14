@@ -16,6 +16,11 @@ public class DungeonPlayerSpawner : MonoBehaviour
     // private bool areEnemiesReady = false; 
     // private bool areItemsReady = false;   
 
+    public void Start()
+    {
+        PlayerData.enemiesDefeated = 0;
+    }
+
     private void OnEnable()
     {
         BSPDungeonGenerator.OnDungeonGenerated += DungeonFinished;

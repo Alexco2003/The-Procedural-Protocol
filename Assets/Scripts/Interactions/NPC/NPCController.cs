@@ -101,7 +101,9 @@ public class NPCController : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log($"{data.npcName} a murit!");
+        Debug.Log($"{data.npcName} has died.");
+        PlayerData.enemiesDefeated++;
+
         Destroy(gameObject);
     }
 

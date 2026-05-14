@@ -50,6 +50,8 @@ public class MainMenuController : MonoBehaviour
         if (octavesSlider) octavesSlider.value = TerrainGenerationData.octaves;
         if (persistenceSlider) persistenceSlider.value = TerrainGenerationData.persistence;
         if (waterLevelSlider) waterLevelSlider.value = TerrainGenerationData.waterLevel;
+
+        PlayerData.enemiesDefeated = -1;
     }
 
     public void OnGenerateWorldClicked()

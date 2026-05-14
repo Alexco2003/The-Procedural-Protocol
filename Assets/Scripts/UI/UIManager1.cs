@@ -9,6 +9,7 @@ public class UIManager1 : MonoBehaviour
     public TextMeshProUGUI damageText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI dashText;
+    public TextMeshProUGUI enemiesDefeatedText;
 
     private PlayerStats playerStats;
     private PlayerMovement playerMovement;
@@ -46,5 +47,10 @@ public class UIManager1 : MonoBehaviour
         speedText.text = $"<color=#00FF00>Speed:</color> {playerMovement.moveSpeed:F1}";
 
         dashText.text = $"<color=#00FFFF>Dash Force:</color> {playerMovement.dashForce} | <color=#FF00FF>CD:</color> {playerMovement.dashCooldown:F1}s";
+
+        if (enemiesDefeatedText != null && PlayerData.enemiesDefeated != -1)
+        {
+            enemiesDefeatedText.text = $"<color=#FFA500>Kills:</color> {PlayerData.enemiesDefeated}";
+        }
     }
 }
