@@ -24,5 +24,6 @@ public static class PlayerData
         MoveSpeed = 7f;
         DashForce = 30f;
         DashCooldown = 3.5f;
+
     }
 }

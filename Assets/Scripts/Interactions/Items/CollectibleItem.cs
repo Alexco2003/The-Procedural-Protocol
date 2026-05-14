@@ -98,6 +98,7 @@ public class CollectibleItem : MonoBehaviour
             {
                 PlayerData.MaxHP += data.maxHpBoost;
                 pStats.currentMaxHP = PlayerData.MaxHP;
+                pStats.currentHP += data.maxHpBoost;
 
                 PlayerData.HP += data.hpBoost;
                 pStats.currentHP += data.hpBoost;

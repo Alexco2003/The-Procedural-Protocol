@@ -10,9 +10,14 @@ public class PlayerStats : MonoBehaviour
     public float invulnerabilityTime = 1f;
     private float lastDamageTime = -10f;
 
+    [Header("Game Over UI")]
+    public GameObject hudCanvas;
+    public GameObject gameOverCanvas;
+    public Camera loadingCamera;
+
     void Start()
     {
-        currentHP = PlayerData.HP;
+        currentHP = PlayerData.MaxHP;
         currentMaxHP = PlayerData.MaxHP;
     }
 
@@ -40,5 +45,16 @@ public class PlayerStats : MonoBehaviour
     void Die()
     {
         Debug.Log("Player has died.");
+
+        if (hudCanvas != null) hudCanvas.SetActive(false);
+
+        if (gameOverCanvas != null) gameOverCanvas.SetActive(true);
+
+        if (loadingCamera != null) loadingCamera.gameObject.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        gameObject.SetActive(false);
     }
 }

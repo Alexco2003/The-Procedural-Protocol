@@ -12,6 +12,9 @@ public class DungeonPlayerSpawner : MonoBehaviour
     public Camera loadingCamera;
     public float loadingScreenDelay = 2.5f;
 
+    [Header("Game Over Setup")]
+    public GameObject gameOverCanvas;
+
     private bool isDungeonReady = false;
     // private bool areEnemiesReady = false; 
     // private bool areItemsReady = false;   
@@ -76,6 +79,15 @@ public class DungeonPlayerSpawner : MonoBehaviour
         Vector3 spawnPos = new Vector3(spawnTile.x * generator.tileSize, 2f, spawnTile.y * generator.tileSize);
 
         GameObject playerInstance = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
+
+        PlayerStats pStats = playerInstance.GetComponent<PlayerStats>();
+        if (pStats != null)
+        {
+            pStats.hudCanvas = HUDCanvas;
+            pStats.gameOverCanvas = gameOverCanvas;
+            pStats.loadingCamera = loadingCamera;
+        }
+
         GameObject camHolderInstance = Instantiate(cameraHolderPrefab, spawnPos, Quaternion.identity);
 
         MoveCamera moveCamScript = camHolderInstance.GetComponent<MoveCamera>();
