@@ -17,6 +17,8 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField roomMinSizeInput;
     public TMP_InputField minEnemiesInput;
     public TMP_InputField maxEnemiesInput;
+    public TMP_InputField minTrapsInput;
+    public TMP_InputField maxTrapsInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -43,6 +45,8 @@ public class MainMenuController : MonoBehaviour
         if (roomMinSizeInput) roomMinSizeInput.text = DungeonData.minRoomSize.ToString();
         if (minEnemiesInput) minEnemiesInput.text = EnemyGenerationData.minEnemiesPerRoom.ToString();
         if (maxEnemiesInput) maxEnemiesInput.text = EnemyGenerationData.maxEnemiesPerRoom.ToString();
+        if (minTrapsInput) minTrapsInput.text = TrapsGenerationData.minTrapsPerRoom.ToString();
+        if (maxTrapsInput) maxTrapsInput.text = TrapsGenerationData.maxTrapsPerRoom.ToString();
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -71,6 +75,8 @@ public class MainMenuController : MonoBehaviour
 
         if (int.TryParse(minEnemiesInput.text, out int minE)) EnemyGenerationData.minEnemiesPerRoom = Mathf.Clamp(minE, 0, 10);
         if (int.TryParse(maxEnemiesInput.text, out int maxE)) EnemyGenerationData.maxEnemiesPerRoom = Mathf.Clamp(maxE, 1, 20);
+        if (int.TryParse(minTrapsInput.text, out int minT)) TrapsGenerationData.minTrapsPerRoom = Mathf.Clamp(minT, 0, 10);
+        if (int.TryParse(maxTrapsInput.text, out int maxT)) TrapsGenerationData.maxTrapsPerRoom = Mathf.Clamp(maxT, 1, 20);
 
 
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
@@ -96,6 +102,8 @@ public class MainMenuController : MonoBehaviour
                   $"Room Min Size: {DungeonData.minRoomSize}." +
                     $"Min Enemies Per Room: {EnemyGenerationData.minEnemiesPerRoom}." +
                     $"Max Enemies Per Room: {EnemyGenerationData.maxEnemiesPerRoom}."+
+                    $"Min Traps Per Room: {TrapsGenerationData.minTrapsPerRoom}." +
+                    $"Max Traps Per Room: {TrapsGenerationData.maxTrapsPerRoom}." +
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }

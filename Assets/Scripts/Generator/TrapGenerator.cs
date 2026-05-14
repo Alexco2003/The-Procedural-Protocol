@@ -10,6 +10,11 @@ public class TrapGenerator : MonoBehaviour
     public int minTrapsPerRoom = 0;
     public int maxTrapsPerRoom = 10;
 
+    public void Start()
+    {
+        minTrapsPerRoom = TrapsGenerationData.minTrapsPerRoom;
+        maxTrapsPerRoom = TrapsGenerationData.maxTrapsPerRoom;
+    }
     private void OnEnable()
     {
         BSPDungeonGenerator.OnDungeonGenerated += SpawnTraps;
