@@ -20,6 +20,10 @@ public class NPCController : MonoBehaviour
     public float attackCooldown = 1.5f;
     private float lastAttackTime = -10f;
 
+    [Header("Base Stats (Day/Night Cycle)")]
+    private float baseSpeed;
+    private float baseDamage;
+
     private NavMeshAgent agent;
     private float waitTimer;
     
@@ -41,7 +45,10 @@ public class NPCController : MonoBehaviour
         agent.updateRotation = false;
 
         currentState = AIState.Wander;
-   
+
+        baseSpeed = agent.speed;
+        baseDamage = data.damage;
+
     }
 
     void Update()
@@ -56,6 +63,36 @@ public class NPCController : MonoBehaviour
         HandleAI();
 
         OrientTowardsMovement();
+        UpdateStatsBasedOnTime();
+    }
+
+    void UpdateStatsBasedOnTime()
+    {
+        if (DayNightManager.Instance == null) return;
+
+        switch (DayNightManager.Instance.currentPhase)
+        {
+            case DayNightManager.TimePhase.Day:
+                agent.speed = baseSpeed * 1.5f;    
+                data.moveSpeed = agent.speed;
+                data.damage = baseDamage * 0.5f; 
+                break;
+
+            case DayNightManager.TimePhase.Night:
+                agent.speed = baseSpeed * 0.4f; 
+                data.moveSpeed = agent.speed;
+                data.damage = baseDamage * 2f;    
+                break;
+
+            case DayNightManager.TimePhase.Normal:
+                agent.speed = baseSpeed;       
+                data.moveSpeed = agent.speed;
+                data.damage = baseDamage;         
+                break;
+        }
+
+        textMesh.text = GenerateUIText();
+
     }
 
     private void OnCollisionStay(Collision collision)
