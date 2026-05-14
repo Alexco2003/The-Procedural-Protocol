@@ -10,6 +10,7 @@ public class UIManager1 : MonoBehaviour
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI dashText;
     public TextMeshProUGUI enemiesDefeatedText;
+    public TextMeshProUGUI coinsText;
 
     private PlayerStats playerStats;
     private PlayerMovement playerMovement;
@@ -51,6 +52,11 @@ public class UIManager1 : MonoBehaviour
         if (enemiesDefeatedText != null && PlayerData.enemiesDefeated != -1)
         {
             enemiesDefeatedText.text = $"<color=#FFA500>Kills:</color> {PlayerData.enemiesDefeated}";
+        }
+
+        if (coinsText != null)
+        {
+            coinsText.text = $"<color=#FFD700>Coins:</color> {PlayerData.coinsCollected}";
         }
     }
 }

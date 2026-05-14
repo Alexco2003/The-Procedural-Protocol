@@ -13,6 +13,7 @@ public static class PlayerData
     public static float DashCooldown = 3.5f;
 
     public static int enemiesDefeated = 0;
+    public static int coinsCollected = 0;
 
     public static void ResetStats()
     {
@@ -24,6 +25,7 @@ public static class PlayerData
         MoveSpeed = 7f;
         DashForce = 30f;
         DashCooldown = 3.5f;
+        coinsCollected = 0;
 
     }
 }
