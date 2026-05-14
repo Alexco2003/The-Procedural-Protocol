@@ -1322,6 +1322,7 @@ Transform:
   - {fileID: 2057628249}
   - {fileID: 489762195}
   - {fileID: 1414852285}
+  - {fileID: 1569730514}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972608306
@@ -2665,6 +2666,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510502774}
   m_CullTransparentMesh: 1
+--- !u!1 &1569730513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1569730514}
+  - component: {fileID: 1569730515}
+  m_Layer: 0
+  m_Name: TrapsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1569730514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569730513}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 936983240}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1569730515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569730513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7857fb819d130a849957686994233ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapGenerator
+  trapPrefabs:
+  - {fileID: 1411054063627100, guid: a5b2c973fbd4bcf49b07ded49a003a51, type: 3}
+  - {fileID: 1880776661035598, guid: 390c3e301d761084694df43e15a0d9bb, type: 3}
+  - {fileID: 1022355727804264, guid: cb713cc3279397b498f41ebe7ece59dc, type: 3}
+  minTrapsPerRoom: 0
+  maxTrapsPerRoom: 10
 --- !u!1 &1628588909
 GameObject:
   m_ObjectHideFlags: 0
