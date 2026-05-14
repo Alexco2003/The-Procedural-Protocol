@@ -25,6 +25,12 @@ public class NPCGenerator : MonoBehaviour
 
     private static int nextNpcId = 1;
 
+    private void Start()
+    {
+        minEnemiesPerRoom = EnemyGenerationData.minEnemiesPerRoom;
+        maxEnemiesPerRoom = EnemyGenerationData.maxEnemiesPerRoom;
+    }
+
     private void OnEnable()
     {
         BSPDungeonGenerator.OnDungeonGenerated += SpawnEnemiesInDungeon;

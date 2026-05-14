@@ -15,6 +15,8 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField dungeonSizeInput;
     public TMP_InputField roomComplexityInput;
     public TMP_InputField roomMinSizeInput;
+    public TMP_InputField minEnemiesInput;
+    public TMP_InputField maxEnemiesInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -39,6 +41,8 @@ public class MainMenuController : MonoBehaviour
         if (dungeonSizeInput) dungeonSizeInput.text = DungeonData.dungeonSize.ToString();
         if (roomComplexityInput) roomComplexityInput.text = DungeonData.roomComplexity.ToString();
         if (roomMinSizeInput) roomMinSizeInput.text = DungeonData.minRoomSize.ToString();
+        if (minEnemiesInput) minEnemiesInput.text = EnemyGenerationData.minEnemiesPerRoom.ToString();
+        if (maxEnemiesInput) maxEnemiesInput.text = EnemyGenerationData.maxEnemiesPerRoom.ToString();
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -63,6 +67,10 @@ public class MainMenuController : MonoBehaviour
         if (int.TryParse(roomMinSizeInput.text, out int rms)) DungeonData.minRoomSize = Mathf.Clamp(rms, 3, 8);
         if (DungeonData.roomComplexity < DungeonData.minRoomSize + 2) DungeonData.roomComplexity = DungeonData.minRoomSize + 2;
 
+        if (int.TryParse(minEnemiesInput.text, out int minE)) EnemyGenerationData.minEnemiesPerRoom = Mathf.Clamp(minE, 0, 10);
+        if (int.TryParse(maxEnemiesInput.text, out int maxE)) EnemyGenerationData.maxEnemiesPerRoom = Mathf.Clamp(maxE, 1, 20);
+
+
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
         else TerrainGenerationData.elevationSeed = -1f;
 
@@ -84,6 +92,8 @@ public class MainMenuController : MonoBehaviour
                   $"Dungeon Size: {DungeonData.dungeonSize}." +
                   $"Room Complexity: {DungeonData.roomComplexity}." +
                   $"Room Min Size: {DungeonData.minRoomSize}." +
+                    $"Min Enemies Per Room: {EnemyGenerationData.minEnemiesPerRoom}." +
+                    $"Max Enemies Per Room: {EnemyGenerationData.maxEnemiesPerRoom}."+
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }
