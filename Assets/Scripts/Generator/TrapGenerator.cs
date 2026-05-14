@@ -31,7 +31,7 @@ public class TrapGenerator : MonoBehaviour
 
             int trapsToSpawn = Random.Range(minTrapsPerRoom, maxTrapsPerRoom + 1);
 
-            trapsToSpawn = Mathf.Min(trapsToSpawn, room.floorTiles.Count / 5);
+            trapsToSpawn = Mathf.Min(trapsToSpawn, room.floorTiles.Count);
 
             for (int i = 0; i < trapsToSpawn; i++)
             {
