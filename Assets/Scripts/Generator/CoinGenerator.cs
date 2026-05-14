@@ -10,6 +10,11 @@ public class CoinGenerator : MonoBehaviour
     public int minCoinsPerRoom = 10;
     public int maxCoinsPerRoom = 50;
 
+    private void Start()
+    {
+        minCoinsPerRoom = CoinGenerationData.minCoinsPerRoom;
+        maxCoinsPerRoom = CoinGenerationData.maxCoinsPerRoom;
+    }
     private void OnEnable()
     {
         BSPDungeonGenerator.OnDungeonGenerated += SpawnCoins;

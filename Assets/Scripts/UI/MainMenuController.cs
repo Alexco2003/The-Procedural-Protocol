@@ -19,6 +19,8 @@ public class MainMenuController : MonoBehaviour
     public TMP_InputField maxEnemiesInput;
     public TMP_InputField minTrapsInput;
     public TMP_InputField maxTrapsInput;
+    public TMP_InputField minCoinsInput;
+    public TMP_InputField maxCoinsInput;
 
     [Header("Text Inputs (Seeds)")]
     public TMP_InputField elevationSeedInput;
@@ -47,6 +49,8 @@ public class MainMenuController : MonoBehaviour
         if (maxEnemiesInput) maxEnemiesInput.text = EnemyGenerationData.maxEnemiesPerRoom.ToString();
         if (minTrapsInput) minTrapsInput.text = TrapsGenerationData.minTrapsPerRoom.ToString();
         if (maxTrapsInput) maxTrapsInput.text = TrapsGenerationData.maxTrapsPerRoom.ToString();
+        if (minCoinsInput) minCoinsInput.text = CoinGenerationData.minCoinsPerRoom.ToString();
+        if (maxCoinsInput) maxCoinsInput.text = CoinGenerationData.maxCoinsPerRoom.ToString();
 
         if (elevationSeedInput) elevationSeedInput.text = "";
         if (moistureSeedInput) moistureSeedInput.text = "";
@@ -77,6 +81,9 @@ public class MainMenuController : MonoBehaviour
         if (int.TryParse(maxEnemiesInput.text, out int maxE)) EnemyGenerationData.maxEnemiesPerRoom = Mathf.Clamp(maxE, 1, 20);
         if (int.TryParse(minTrapsInput.text, out int minT)) TrapsGenerationData.minTrapsPerRoom = Mathf.Clamp(minT, 0, 10);
         if (int.TryParse(maxTrapsInput.text, out int maxT)) TrapsGenerationData.maxTrapsPerRoom = Mathf.Clamp(maxT, 1, 20);
+        if (int.TryParse(minCoinsInput.text, out int minC)) CoinGenerationData.minCoinsPerRoom = Mathf.Clamp(minC, 0, 50);
+        if (int.TryParse(maxCoinsInput.text, out int maxC)) CoinGenerationData.maxCoinsPerRoom = Mathf.Clamp(maxC, 1, 100);
+
 
 
         if (float.TryParse(elevationSeedInput.text, out float eSeed)) TerrainGenerationData.elevationSeed = eSeed;
@@ -100,10 +107,12 @@ public class MainMenuController : MonoBehaviour
                   $"Dungeon Size: {DungeonData.dungeonSize}." +
                   $"Room Complexity: {DungeonData.roomComplexity}." +
                   $"Room Min Size: {DungeonData.minRoomSize}." +
-                    $"Min Enemies Per Room: {EnemyGenerationData.minEnemiesPerRoom}." +
-                    $"Max Enemies Per Room: {EnemyGenerationData.maxEnemiesPerRoom}."+
-                    $"Min Traps Per Room: {TrapsGenerationData.minTrapsPerRoom}." +
-                    $"Max Traps Per Room: {TrapsGenerationData.maxTrapsPerRoom}." +
+                  $"Min Enemies Per Room: {EnemyGenerationData.minEnemiesPerRoom}." +
+                  $"Max Enemies Per Room: {EnemyGenerationData.maxEnemiesPerRoom}."+
+                  $"Min Traps Per Room: {TrapsGenerationData.minTrapsPerRoom}." +
+                  $"Max Traps Per Room: {TrapsGenerationData.maxTrapsPerRoom}." +
+                  $"Min Coins Per Room: {CoinGenerationData.minCoinsPerRoom}." +
+                  $"Max Coins Per Room: {CoinGenerationData.maxCoinsPerRoom}." +
                   $"Loading scene: {sceneToLoad}");
         SceneManager.LoadScene(sceneToLoad);
     }
