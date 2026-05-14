@@ -15,10 +15,34 @@ public class PlayerStats : MonoBehaviour
     public GameObject gameOverCanvas;
     public Camera loadingCamera;
 
+    [Header("Auto-Heal Settings")]
+    public bool enableAutoHeal = true;
+    public float healAmountPerSecond = 2f;
+    public float healDelayAfterDamage = 5f;
+
     void Start()
     {
         currentHP = PlayerData.MaxHP;
         currentMaxHP = PlayerData.MaxHP;
+    }
+
+    void Update()
+    {
+
+        if (enableAutoHeal && currentHP > 0 && currentHP < currentMaxHP)
+        {
+            if (Time.time >= lastDamageTime + healDelayAfterDamage)
+            {
+                currentHP += healAmountPerSecond * Time.deltaTime;
+
+                if (currentHP > currentMaxHP)
+                {
+                    currentHP = currentMaxHP;
+                }
+
+                PlayerData.HP = currentHP;
+            }
+        }
     }
 
     public void TakeDamage(float amount)
