@@ -21,6 +21,10 @@ public class BiomeGenerator : MonoBehaviour
     public float elevationSeed = 100f;
     public float moistureSeed = 500f;
 
+    [Header("Materials")]
+    public Material terrainMaterialPrefab;
+    public Material wallMaterialPrefab;
+
     private float[,] elevationMap;
     private float[,] moistureMap;
 
@@ -185,12 +189,14 @@ public class BiomeGenerator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         MeshRenderer renderer = GetComponent<MeshRenderer>();
-        if (renderer.sharedMaterial == null)
+        if (terrainMaterialPrefab != null)
         {
-            Shader urpShader = Shader.Find("Universal Render Pipeline/Particles/Lit");
-            Material mat = new Material(urpShader);
-            renderer.material = mat;
-
+            renderer.material = terrainMaterialPrefab;
+        }
+        else
+        {
+            Debug.LogError("No terrain material assigned! Please assign a material to the BiomeGenerator.");
+          
         }
 
 
@@ -224,23 +230,31 @@ public class BiomeGenerator : MonoBehaviour
         float wallHeight = heightMultiplier * 1.5f;
         float wallThickness = 10f;
 
-        Material wallMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        wallMaterial.color = new Color(0.4f, 0.4f, 0.4f);
+        Material instancedWallMaterial = null;
+        if (wallMaterialPrefab != null)
+        {
+            instancedWallMaterial = new Material(wallMaterialPrefab);
+            instancedWallMaterial.color = new Color(0.4f, 0.4f, 0.4f);
+        }
+        else
+        {
+            Debug.LogError("No wall material assigned! Please assign a material to the BiomeGenerator.");
+        }
 
 
-        CreateWall(wallParent.transform, wallMaterial,
+        CreateWall(wallParent.transform, instancedWallMaterial,
             new Vector3(realWidth / 2f, wallHeight / 2f, -wallThickness / 2f),
             new Vector3(realWidth + wallThickness * 2f, wallHeight, wallThickness), "Wall_South");
 
-        CreateWall(wallParent.transform, wallMaterial,
+        CreateWall(wallParent.transform, instancedWallMaterial,
             new Vector3(realWidth / 2f, wallHeight / 2f, realLength + wallThickness / 2f),
             new Vector3(realWidth + wallThickness * 2f, wallHeight, wallThickness), "Wall_North");
 
-        CreateWall(wallParent.transform, wallMaterial,
+        CreateWall(wallParent.transform, instancedWallMaterial,
             new Vector3(-wallThickness / 2f, wallHeight / 2f, realLength / 2f),
             new Vector3(wallThickness, wallHeight, realLength), "Wall_West");
 
-        CreateWall(wallParent.transform, wallMaterial,
+        CreateWall(wallParent.transform, instancedWallMaterial,
             new Vector3(realWidth + wallThickness / 2f, wallHeight / 2f, realLength / 2f),
             new Vector3(wallThickness, wallHeight, realLength), "Wall_East");
     }

@@ -37,6 +37,7 @@ public class UIManager1 : MonoBehaviour
         }
     }
 
+
     void UpdateUI()
     {
         hpText.text = $"<color=#FF4444>HP:</color> {Mathf.Round(playerStats.currentHP)} / <color=#FF0000>{PlayerData.MaxHP}</color>";
