@@ -1,0 +1,62 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\definecolor{primary}{RGB}{26, 54, 93}
+\definecolor{secondary}{RGB}{43, 108, 176}
+\definecolor{textdark}{RGB}{44, 62, 80}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{center}
+    {\color{primary}\LARGE\bfseries THE PROCEDURAL PROTOCOL} \\[0.2cm]
+\end{center}
+\begin{flushright}
+    {\color{textdark}\large Codarcea Alexandru-Christian} \\[0.1cm]
+\end{flushright}
+\rule{\textwidth}{1.5pt}
+\vspace{0.3cm}
+
+\vspace{0.3cm}
+\noindent{\color{secondary}\large\bfseries 1. TEREN DENIVELAT ȘI CLASIFICAREA BIOMURILOR} \\
+\rule{\textwidth}{0.8pt} \\
+Lumea exterioară a jocului folosește Fractal Noise pentru a sculpta un relief natural format din munți, văi și dealuri, oferind o topografie variată. Pentru distribuția ecologică, proiectul adaptează modelul climatic Whittaker. Sistemul generează două hărți independente prin seed-uri unice (elevație și umiditate), iar intersecția acestor valori determină biomul specific fiecărei zone. Culorile sunt aplicate direct pe vertexurile hărții, rezultând o tranziție vizuală fluidă între cele 10 biomuri implementate (de la oceane adânci și plaje nisipoase, până la păduri dense, mlaștini și creste montane înzăpezite).
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 2. SISTEMUL DE VEGETAȚIE} \\
+\rule{\textwidth}{0.8pt} \\
+Flora jocului folosește un generator bazat pe Sisteme Lindenmayer (L-Systems). Pentru fiecare plantă se alege o gramatică aleatoare pe baza căreia se construiește un mesh tridimensional unic. Pentru a evita monotonia vizuală, fiecare instanță adaugă elemente aleatorii din cod, precum ramuri cu înălțimi asimetrice și orientări sau rotații tridimensionale imprevizibile ale nodurilor. Culoarea este generată complet aleatoriu pentru întreaga plantă direct la inițializare. Plasarea pe teren folosește o tehnică de verificare prin raze (Raycasting vertical descendent) pe coordonate alese aleatoriu, asigurând că plantele se spawnează corect pe suprafață, interzicând apariția lor sub sau la nivelul apei ori în coliziune cu barierele laterale ale hărții.
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 3. GENERAREA DE NPC-URI ȘI ITEME} \\
+\rule{\textwidth}{0.8pt} \\
+Personajele non-jucabile (NPC) și obiectele sunt create dinamic prin combinarea unor liste semantice de nume și atribute procedurale, oferind o mare varietate de profile:
+\begin{itemize}[itemsep=2pt, topsep=2pt, parsep=0pt, leftmargin=*]
+    \item \textbf{Clase NPC:} Inamicii sunt structurați pe patru clase principale (Warrior, Paladin, Assassin și Rogue). Fiecare clasă are o structură predefinită de atribute (viață, armură, damage și viteză), însă valorile numerice finale sunt generate procedural din anumite intervale specifice fiecărei clase.
+    \item \textbf{Sistem de Loot:} Sunt generate 7 tipuri de echipamente (arme și scuturi). Tipul echipamentului influențează direct ce categorii de bonusuri pot fi primite. Atributele de bază sunt scalate prin multiplicatori în funcție de 5 trepte de raritate (Common, Uncommon, Rare, Epic, Legendary). În plus, raritățile superioare primesc un plus de stats boost pentru atribute alese aleatoriu: +1 boost pentru obiectele de tip Epic și +2 boost-uri pentru cele de tip Legendary.
+\end{itemize}
+
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 4. GENERAREA LABIRINTULUI (DUNGEON)} \\
+\rule{\textwidth}{0.8pt} \\
+La coliziunea directă cu portalul din prima scenă, jucătorul este teleportat într-un dungeon generat pe un singur nivel. Spațiul este compartimentat prin algoritmul BSP (Binary Space Partitioning), care divide recursiv spațiul pentru a sculpta camere de dimensiuni variabile. Conectarea tuturor camerelor este garantată prin algoritmul de pathfinding A*. Nivelul este populat automat cu monezi colectabile și capcane dinamice ale căror mesh-uri și statistici sunt generate aleatoriu la runtime. Inamicii dispun de o inteligență artificială bazată pe Unity NavMesh, care le permite să navigheze dinamic mediul procedural, tranzitând autonom între o stare de patrulare (Wander) și una de urmărire agresivă (Chase) la detectarea jucătorului. Sistemul de luptă este bazat pe contact direct (on-collide). Strategic, jucătorul se poate folosi de o abilitate de eschivă (Dash) bazată pe cooldown, având la dispoziție și un sistem de regenerare automată a vieții (Auto-Heal) ce intervine după o scurtă perioadă de evitare a daunelor. Finalizarea nivelului necesită atingerea unui alt portal.
+\\[1.5cm]
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 5. INTERACTIVITATE ȘI EVOLUȚIE TEMPORALĂ} \\
+\rule{\textwidth}{0.8pt}
+\begin{itemize}[itemsep=2pt, topsep=2pt, parsep=0pt, leftmargin=*]
+    \item \textbf{Ciclu Zi/Noapte dinamic:} Sistemul de timp gestionează trei intervale distincte (Day, Night și Normal), care afectează direct statisticile inamicilor la runtime. Pe timp de zi (Day), inamicii au un damage mai mic, dar o viteză de mișcare mai mare. Pe timp de noapte (Night), comportamentul este inversat (damage crescut și viteză redusă). În intervalul Normal, statisticile de bază nu sunt afectate.
+    \item \textbf{Meniu de Configurare:} Jucătorul are control complet asupra majorității parametrilor. Din interfață se pot modifica manual: dimensiunile hărții (width/height), multiplicatorul de înălțime, scala de zgomot (noise scale), numărul de plante și de iteme, dimensiunea dungeon-ului, complexitatea camerelor, dimensiunea minimă a unei camere, limitele minime/maxime de inamici, capcane și monede per cameră, seed-urile de elevație și umiditate, precum și slidere pentru octave, persistență și nivelul apei.
+\end{itemize}
+
+
+\end{document}
+
+

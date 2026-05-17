@@ -1,0 +1,58 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\definecolor{primary}{RGB}{26, 54, 93}
+\definecolor{secondary}{RGB}{43, 108, 176}
+\definecolor{textdark}{RGB}{44, 62, 80}
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{center}
+    {\color{primary}\LARGE\bfseries THE PROCEDURAL PROTOCOL} \\[0.2cm]
+\end{center}
+\begin{flushright}
+    {\color{textdark}\large Codarcea Alexandru-Christian} \\[0.1cm]
+\end{flushright}
+\rule{\textwidth}{1.5pt}
+\vspace{0.3cm}
+
+\vspace{0.3cm}
+\noindent{\color{secondary}\large\bfseries 1. UNEVEN TERRAIN AND BIOME CLASSIFICATION} \\
+\rule{\textwidth}{0.8pt} \\
+The game's outer world uses Fractal Noise to sculpt a natural relief consisting of mountains, valleys, and hills, providing a varied topography. For ecological distribution, the project adapts the Whittaker climate model. The system generates two independent maps via unique seeds (elevation and moisture), and the intersection of these values determines the specific biome for each area. Colors are applied directly to the map's vertices, resulting in a smooth visual transition between the 10 implemented biomes (from deep oceans and sandy beaches to dense forests, swamps, and snowy mountain peaks).
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 2. VEGETATION SYSTEM} \\
+\rule{\textwidth}{0.8pt} \\
+The game's flora uses a generator based on Lindenmayer Systems (L-Systems). A random grammar is chosen for each plant, based on which a unique three-dimensional mesh is constructed. To avoid visual monotony, each instance adds random elements via code, such as branches with asymmetrical heights and unpredictable three-dimensional orientations or rotations of the nodes. The color is generated completely randomly for the entire plant directly upon initialization. Terrain placement uses a ray verification technique (downward vertical Raycasting) on randomly chosen coordinates, ensuring plants spawn correctly on the surface and preventing their appearance below or at water level, or colliding with the map's lateral boundaries.
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 3. NPC AND ITEM GENERATION} \\
+\rule{\textwidth}{0.8pt} \\
+Non-playable characters (NPCs) and items are dynamically created by combining semantic name lists and procedural attributes, offering a wide variety of profiles:
+\begin{itemize}[itemsep=2pt, topsep=2pt, parsep=0pt, leftmargin=*]
+    \item \textbf{NPC Classes:} Enemies are structured into four main classes (Warrior, Paladin, Assassin, and Rogue). Each class has a predefined attribute structure (health, armor, damage, and speed), but the final numerical values are procedurally generated from specific intervals unique to each class.
+    \item \textbf{Loot System:} 7 types of equipment (weapons and shields) are generated. The equipment type directly influences what categories of bonuses can be received. Base attributes are scaled by multipliers based on 5 rarity tiers (Common, Uncommon, Rare, Epic, Legendary). Additionally, higher rarities receive an extra stats boost for randomly chosen attributes: +1 boost for Epic items and +2 boosts for Legendary ones.
+\end{itemize}
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 4. DUNGEON GENERATION} \\
+\rule{\textwidth}{0.8pt} \\
+Upon direct collision with the portal in the first scene, the player is teleported to a single-level generated dungeon. The space is partitioned using the BSP (Binary Space Partitioning) algorithm, which recursively divides the space to carve out variably sized rooms. The connection of all rooms is guaranteed by the A* pathfinding algorithm. The level is automatically populated with collectible coins and dynamic traps whose meshes and statistics are randomly generated at runtime. Enemies feature an artificial intelligence based on Unity NavMesh, allowing them to dynamically navigate the procedural environment, autonomously transitioning between a patrol state (Wander) and an aggressive pursuit state (Chase) upon detecting the player. The combat system is based on direct contact (on-collide). Strategically, the player can use a cooldown-based dodge ability (Dash), alongside an automatic health regeneration system (Auto-Heal) that triggers after a short period of avoiding damage. Completing the level requires reaching another portal.
+\\[1.5cm]
+
+\vspace{0.4cm}
+\noindent{\color{secondary}\large\bfseries 5. INTERACTIVITY AND TEMPORAL EVOLUTION} \\
+\rule{\textwidth}{0.8pt}
+\begin{itemize}[itemsep=2pt, topsep=2pt, parsep=0pt, leftmargin=*]
+    \item \textbf{Dynamic Day/Night Cycle:} The time system manages three distinct intervals (Day, Night, and Normal), which directly affect enemy statistics at runtime. During the day (Day), enemies have lower damage but a higher movement speed. During the night (Night), the behavior is inverted (increased damage and reduced speed). In the Normal interval, base statistics are unaffected.
+    \item \textbf{Configuration Menu:} The player has complete control over most parameters. From the interface, one can manually modify: map dimensions (width/height), height multiplier, noise scale, number of plants and items, dungeon size, room complexity, minimum room size, minimum/maximum limits for enemies, traps, and coins per room, elevation and moisture seeds, as well as sliders for octaves, persistence, and water level.
+\end{itemize}
+
+\end{document}
