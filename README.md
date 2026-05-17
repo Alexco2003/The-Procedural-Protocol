@@ -27,6 +27,14 @@ The project demonstrates how algorithmic world-building can create a unique expe
 * **Day/Night Cycle:** The time of day directly affects enemy behavior at runtime -> enemies hit harder and move slower at night, and vice-versa during the day.
 * **Deep Customization:** Take control of the algorithms. Use the Main Menu to tweak terrain dimensions, noise scale, flora/enemy density, dungeon complexity, and generation seeds before diving in.
 
+## 🕹️ Controls
+
+| Key | Action |
+| :---: | :--- |
+| **W A S D** | Move Character (Forward, Left, Backward, Right) |
+| **SPACE** | Jump |
+| **Q** | Dash Forward (Cooldown-based) |
+
 ## 📥 Download & Installation
 You can download the latest playable build from the [Releases](../../releases) tab of this repository.
 
